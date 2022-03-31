@@ -7,7 +7,7 @@ function isFunc(func) {
 }
 
 export const withAppStateListener = (WrappedComponent) => {
-  function EnhancedComponent(props) {
+  function ComponentWithAppStateListener(props) {
     const {
       forwardedRef,
       onAppStateChange,
@@ -45,14 +45,14 @@ export const withAppStateListener = (WrappedComponent) => {
     );
   }
 
-  EnhancedComponent.propTypes = {
+  ComponentWithAppStateListener.propTypes = {
     forwardedRef: PropTypes.object,
     onAppStateChange: PropTypes.func,
     onBackground: PropTypes.func,
     onForeground: PropTypes.func,
   };
 
-  EnhancedComponent.defaultProps = {
+  ComponentWithAppStateListener.defaultProps = {
     forwardedRef: undefined,
     onAppStateChange: undefined,
     onBackground: undefined,
@@ -61,6 +61,6 @@ export const withAppStateListener = (WrappedComponent) => {
 
   // eslint-disable-next-line react/display-name
   return forwardRef((props, ref) => {
-    return <EnhancedComponent {...props} forwardedRef={ref} />;
+    return <ComponentWithAppStateListener {...props} forwardedRef={ref} />;
   });
 };
