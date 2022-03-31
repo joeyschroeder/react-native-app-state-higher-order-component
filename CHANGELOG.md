@@ -1,3 +1,13 @@
+#### 0.1.1 (2022-03-31)
+
+##### Bug Fixes
+
+*  AppState.addEventListener().remove() ([66d19b2b](https://github.com/joeyschroeder/react-native-app-state-higher-order-component/commit/66d19b2b72366fbfe3d4d2efc6ec5b5cff84408c))
+
+##### Refactors
+
+*  Rename EnhancedComponent to ComponentWithAppStateListener ([984540e6](https://github.com/joeyschroeder/react-native-app-state-higher-order-component/commit/984540e6eb42e9717b7dce5bfa5cb44fceec02b2))
+
 ### 0.1.0 (2022-03-31)
 
 ##### Documentation Changes
