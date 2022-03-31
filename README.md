@@ -4,12 +4,10 @@
 [![GitHub issues](https://img.shields.io/github/issues/joeyschroeder/npm-package-starter.svg)](https://github.com/joeyschroeder/npm-package-starter/issues)
 [![GitHub stars](https://img.shields.io/github/stars/joeyschroeder/npm-package-starter.svg)](https://github.com/joeyschroeder/npm-package-starter/stargazers)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![Dependency status](https://david-dm.org/joeyschroeder/react-native-app-state-higher-order-component/status.svg)](https://david-dm.org/joeyschroeder/react-native-app-state-higher-order-component/)
-[![devDependency status](https://david-dm.org/joeyschroeder/react-native-app-state-higher-order-component/dev-status.svg)](https://david-dm.org/joeyschroeder/react-native-app-state-higher-order-component/?type=dev)
 
 # 🌈 react-native-app-state-higher-order-component
 
-A React Native higher-order component listening to AppState changes.
+A [React Native](https://reactnative.dev/) [higher-order component](https://reactjs.org/docs/higher-order-components.html) listening to [AppState](https://reactnative.dev/docs/appstate) changes.
 
 ## Installation
 
@@ -17,7 +15,72 @@ A React Native higher-order component listening to AppState changes.
 
 ## Usage
 
-In detail, explain how to use your package.
+Import **withAppStateListener** from this library.
+
+```
+import { withAppStateListener } from 'react-native-app-state-higher-order-component';
+```
+
+Call **withAppStateListener** with the component you'd like to extend with it's functionality.
+
+```
+const EnhancedComponent = withAppStateListener(YourComponent);
+```
+
+Your component now receives an `appState` prop, which updates to the AppState.currentValue **(i.e. `'active'`, `'inactive'`, `'background'`)** value every time [AppState](https://reactnative.dev/docs/appstate) updates.
+
+```
+import { Text } from 'react-native';
+import { withAppStateListener } from 'react-native-app-state-higher-order-component';
+
+const YourComponent = (props) => {
+  const { appState } = props;
+  return <Text>{appState}</Text>;
+}
+
+const YourComponentWithAppState = withAppStateListener(YourComponent);
+```
+
+### Extended Props
+
+A component enhanced with `withAppStateListener` is extended with three optional, additional props:
+
+| prop             | type/valid values | default     | description                                                                                                |
+| ---------------- | ----------------- | ----------- | ---------------------------------------------------------------------------------------------------------- |
+| onAppStateChange | func              | `undefined` | a function called with the `appState` value when [AppState](https://reactnative.dev/docs/appstate) changes |
+| onBackground     | func              | `undefined` | a function called when [AppState](https://reactnative.dev/docs/appstate) is `'background'` or `'inactive'` |
+| onForeground     | func              | `undefined` | a function called when [AppState](https://reactnative.dev/docs/appstate) is `'active'`                     |
+
+Pass these optional props to your component enhanced with `withAppStateListener`:
+
+```
+import { Text } from 'react-native';
+import { withAppStateListener } from 'react-native-app-state-higher-order-component';
+
+const YourComponent = (props) => {
+  const { appState } = props;
+  return <Text>{appState}</Text>;
+}
+
+const YourComponentWithAppState = withAppStateListener(YourComponent);
+
+const YourApp = () => {
+  const onAppStateChange = (appState) => {
+    console.log(`AppState updated to: ${appState}`);
+  }
+
+  const onBackground = () => console.log('App is in the background.');
+  const onForeground = () => console.log('App is active.');
+
+  return (
+    <YourComponentWithAppState
+      onAppStateChange={onAppStateChange}
+      onBackground={onBackground}
+      onForeground={onForeground}
+    />
+  );
+}
+```
 
 ## Versioning
 
