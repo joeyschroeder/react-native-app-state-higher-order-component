@@ -19,27 +19,25 @@ export const withAppStateListener = (WrappedComponent) => {
     const [appState, setAppState] = useState(AppState.currentState);
 
     useEffect(() => {
-      const subscription = AppState.addEventListener(
-        'change',
-        (nextAppState) => {
-          const isActive = appState === 'active';
-          const nextIsActive = nextAppState === 'active';
-          const nextIsBackground = nextAppState.match(/inactive|background/);
+      function handleChange(nextAppState) {
+        const isActive = appState === 'active';
+        const nextIsActive = nextAppState === 'active';
+        const nextIsBackground = nextAppState.match(/inactive|background/);
 
-          if (nextIsActive && !isActive && isFunc(onForeground)) {
-            onForeground();
-          }
-
-          if (isActive && nextIsBackground && isFunc(onBackground)) {
-            onBackground();
-          }
-
-          setAppState(nextAppState);
-          if (isFunc(onAppStateChange)) onAppStateChange(nextAppState);
+        if (nextIsActive && !isActive && isFunc(onForeground)) {
+          onForeground();
         }
-      );
 
-      return () => subscription.remove();
+        if (isActive && nextIsBackground && isFunc(onBackground)) {
+          onBackground();
+        }
+
+        setAppState(nextAppState);
+        if (isFunc(onAppStateChange)) onAppStateChange(nextAppState);
+      }
+      const eventListener = AppState.addEventListener('change', handleChange);
+
+      return () => eventListener.remove();
     }, [appState, onAppStateChange, onBackground, onForeground]);
 
     return (
