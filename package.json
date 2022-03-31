@@ -1,6 +1,6 @@
 {
   "name": "react-native-app-state-higher-order-component",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A React Native higher-order component listening to AppState changes.",
   "main": "index.js",
   "scripts": {
